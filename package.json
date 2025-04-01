@@ -1,0 +1,21 @@
+{
+  "name": "proyecto-kraken-template",
+  "version": "1.0.0",
+  "license": "MIT",
+  "author": "",
+  "description": "Repositorio base para el uso Pruebas Automatizadas utilizando Kraken",
+  "keywords": [
+    "kraken",
+    "misw"
+  ],
+  "directories": {
+    "test": "features"
+  },
+  "scripts": {
+    "test": "npx kraken-node run"
+  },
+  "dependencies": {
+    "chai": "^5.2.0",
+    "kraken-node": "^1.0.24"
+  }
+}
