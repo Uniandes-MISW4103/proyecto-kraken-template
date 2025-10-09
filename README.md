@@ -47,7 +47,9 @@ El archivo `package.json` incluye la configuración básica para ejecutar prueba
 
 ```json
 "scripts": {
-    "test": "npx kraken-node run"
+    "prepare": "",
+    "test": "npx kraken-node run",
+    "test:ui": "npx kraken-node run"
 },
 "dependencies": {
     "chai": "^5.2.0",
