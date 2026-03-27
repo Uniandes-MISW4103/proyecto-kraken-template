@@ -6,7 +6,7 @@ Kraken es un framework moderno y fácil de usar para realizar pruebas E2E (End-t
 
 [Kraken-Node](https://www.npmjs.com/package/kraken-node) es una herramienta diseñada para facilitar la creación y ejecución de pruebas E2E. Utiliza una arquitectura basada en escenarios definidos en Gherkin y ejecutados con Cucumber.js. Esto permite a los equipos de desarrollo y pruebas trabajar de manera colaborativa en la definición de casos de prueba.
 
-### Características principales:
+### Características principales
 
 - **Soporte para múltiples navegadores**: Ejecuta pruebas en Chrome, Firefox, y más.
 - **Modo headless**: Ideal para integraciones en pipelines de CI/CD.
@@ -68,7 +68,10 @@ El archivo `package.json` incluye la configuración básica para ejecutar prueba
 },
 "dependencies": {
     "@cucumber/cucumber": "7.2.1",
+    "@cucumber/gherkin": "18.0.0",
+    "@cucumber/messages": "15.0.0",
     "chai": "^5.2.0",
+    "fs-extra": "^11.3.0",
     "kraken-node": "^1.0.24"
 }
 ```
