@@ -21,7 +21,10 @@
   },
   "dependencies": {
     "@cucumber/cucumber": "7.2.1",
+    "@cucumber/gherkin": "18.0.0",
+    "@cucumber/messages": "15.0.0",
     "chai": "^5.2.0",
+    "fs-extra": "^11.3.0",
     "kraken-node": "^1.0.24"
   }
 }
