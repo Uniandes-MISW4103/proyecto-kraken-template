@@ -12,7 +12,7 @@
     "test": "features"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "scripts": {
     "prepare": "",
@@ -20,6 +20,7 @@
     "test:ui": "npx kraken-node run"
   },
   "dependencies": {
+    "@cucumber/cucumber": "7.2.1",
     "chai": "^5.2.0",
     "kraken-node": "^1.0.24"
   }
