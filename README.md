@@ -22,12 +22,19 @@ Este proyecto está diseñado para estudiantes de maestría que buscan aprender 
 
 ## Requisitos Básicos
 
-- **Node.js** (versión 20 o superior). Recomendamos utilizar la versión `lts/iron`.
-- **npm** o **yarn** para la gestión de dependencias.
+- **Node.js** (versión 22 o superior). Recomendamos utilizar la versión `lts/jod`.
+- **npm** para la gestión de dependencias.
+- **ADB** (Android Debug Bridge): requerido solo si se desea ejecutar pruebas móviles; configurar `mobile.json` con la ruta y paquete del APK.
 
 ## Instalación
 
-Instala las dependencias necesarias utilizando npm:
+Desde la **raíz del repositorio**:
+
+```bash
+npm run kraken:install
+```
+
+O bien, desde el directorio del módulo:
 
 ```bash
 npm install
@@ -35,15 +42,23 @@ npm install
 
 ## Ejecución de Pruebas
 
-Puedes ejecutar las pruebas en modo headless utilizando el siguiente comando:
+Desde la **raíz del repositorio**:
+
+```bash
+npm run kraken:test
+```
+
+O bien, desde el directorio del módulo:
 
 ```bash
 npm test
 ```
 
+> **Nota:** Kraken no dispone de modo de interfaz gráfica interactiva; `kraken:ui` ejecuta las mismas pruebas en modo headless.
+
 ## Configuración
 
-El archivo `package.json` incluye la configuración básica para ejecutar pruebas con Kraken. A continuación, se detalla su contenido relevante:
+El archivo `package.json` incluye la configuración básica para ejecutar pruebas con Kraken:
 
 ```json
 "scripts": {
@@ -52,12 +67,13 @@ El archivo `package.json` incluye la configuración básica para ejecutar prueba
     "test:ui": "npx kraken-node run"
 },
 "dependencies": {
+    "@cucumber/cucumber": "7.2.1",
     "chai": "^5.2.0",
     "kraken-node": "^1.0.24"
 }
 ```
 
-Además, el archivo `properties.json` contiene las credenciales necesarias para las pruebas automatizadas. Este archivo debe ser configurado con los valores adecuados para tu entorno:
+El archivo `properties.json` contiene las credenciales necesarias para las pruebas. Actualiza sus valores con los datos correctos de tu entorno:
 
 ```json
 {
@@ -67,3 +83,5 @@ Además, el archivo `properties.json` contiene las credenciales necesarias para 
   "PASSWORD": "MISO4208"
 }
 ```
+
+El archivo `mobile.json` es un template para pruebas móviles. Sus campos `<APK_PATH>`, `<APK_PACKAGE>` y `<APK_LAUNCH_ACTIVITY>` son marcadores de posición que debes reemplazar con los valores de tu aplicación antes de ejecutar pruebas en Android.
