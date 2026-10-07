@@ -16,8 +16,8 @@
   },
   "scripts": {
     "prepare": "",
-    "test": "npx kraken-node run",
-    "test:ui": "npx kraken-node run"
+    "test": "node run-kraken.cjs run",
+    "test:ui": "node run-kraken.cjs run"
   },
   "dependencies": {
     "@cucumber/cucumber": "7.2.1",
