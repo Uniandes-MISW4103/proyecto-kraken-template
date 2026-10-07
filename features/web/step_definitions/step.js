@@ -3,6 +3,8 @@ const expect = require("chai").expect;
 
 Given("I run this project", async function () {
   let element = await this.driver.$("button");
+  // StackBlitz can take longer than the fixed wait to show its "Run this project" button.
+  await element.waitForClickable({ timeout: 30000 });
   return await element.click();
 });
 
@@ -36,7 +38,7 @@ When("I enter password {kraken-string}", async function (password) {
   return await element.setValue(password);
 });
 
-Then("a sucess login message should appear", async function () {
+Then("a success login message should appear", async function () {
   let element = await this.driver.$("h1");
   let actual = await element.getText();
   expect(actual).to.equal("Hi Monitor!");

@@ -15,4 +15,5 @@ class KrakenWorld {
 }
 
 setWorldConstructor(KrakenWorld);
-setDefaultTimeout(30 * 1000);
+// Steps such as "I wait for a signal ... for 60 seconds" must fit within this limit.
+setDefaultTimeout(120 * 1000);

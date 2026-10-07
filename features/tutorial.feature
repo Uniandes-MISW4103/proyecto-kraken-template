@@ -1,4 +1,4 @@
-Feature: Iniciar una conversación
+Feature: Registro e inicio de sesión con dos usuarios
 
 @user1 @web
 Scenario: Como primer usuario hago registro e inicio sesión
@@ -23,7 +23,7 @@ Scenario: Como primer usuario hago registro e inicio sesión
   And I wait for 5 seconds
   And I click login
   And I wait for 5 seconds
-  Then a sucess login message should appear
+  Then a success login message should appear
 
 @user2 @web
 Scenario: Como segundo usuario hago registro e inicio sesión
@@ -48,5 +48,5 @@ Scenario: Como segundo usuario hago registro e inicio sesión
   And I wait for 5 seconds
   And I click login
   And I wait for 5 seconds
-  Then a sucess login message should appear
+  Then a success login message should appear
 
