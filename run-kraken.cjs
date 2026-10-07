@@ -1,18 +1,17 @@
 #!/usr/bin/env node
 /**
- * Runs kraken-node with two fixes for kraken-node 1.0.24 (package.json pins that exact version,
- * because both fixes rely on its internals):
+ * Runs the kraken-node CLI with two patches to kraken-node 1.0.24 internals (package.json pins that
+ * exact version):
  *
- * 1. Web-only features also work on machines without the Android SDK. kraken-node lists Android
- *    devices with `adb devices` before every scenario, even when a feature only has @web users, and
- *    crashes when adb is not installed. If adb is missing, this launcher tells Kraken there are no
- *    Android devices: web-only features run normally and features that need @mobile users stop
- *    with a clear message. If adb is installed, nothing is changed.
+ * 1. Without adb, web-only features run. kraken-node lists Android devices with `adb devices` before
+ *    every scenario, even when a feature only has @web users. If adb is missing, the launcher reports
+ *    no Android devices, and features that need @mobile users stop with a clear message. If adb is
+ *    installed, this patch is not applied.
  *
- * 2. Users that finish at the same time no longer wait for each other until the timeout. Kraken
- *    coordinates users through files in .kraken/ and creates them with a flag that empties the
- *    file, so a user could erase what another user had just written ("ready to finish", signals).
- *    This fix runs in the launcher and in every user's process (this file is preloaded there).
+ * 2. Coordination files in .kraken/ ("ready to finish", signal inboxes) are created in append mode.
+ *    kraken-node creates them with a flag that empties the file, so a user finishing at the same time
+ *    as another could erase the other's entry and both would wait until the timeout. This patch is
+ *    applied in the launcher and in every user's process, where this file is preloaded.
  *
  * Usage: node run-kraken.cjs run   (same arguments as the kraken-node CLI)
  */

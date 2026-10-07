@@ -43,14 +43,13 @@ npm run kraken:install
 `kraken:ui` ejecuta exactamente lo mismo: Kraken siempre abre las ventanas de Chrome (no tiene modo
 headless), una por cada usuario web del escenario.
 
-Los scripts usan `run-kraken.cjs`, que inicia `kraken-node run` con dos correcciones para Kraken
-1.0.24:
+Los scripts usan `run-kraken.cjs`, que inicia `kraken-node run` y además:
 
-- Si `adb` no está instalado, permite ejecutar los escenarios web (Kraken exige `adb` incluso cuando
-  no hay usuarios Android) y detiene con un mensaje claro los escenarios que tengan usuarios
-  `@mobile`.
-- Evita que, cuando dos usuarios terminan al mismo tiempo, uno borre la marca del otro en los
-  archivos de coordinación de `.kraken/` y ambos se queden esperando hasta el tiempo máximo.
+- Permite ejecutar escenarios web sin `adb` (`kraken-node` 1.0.24 lo exige incluso cuando no hay
+  usuarios Android). Los escenarios con usuarios `@mobile` se detienen con un mensaje claro si falta
+  `adb`.
+- Crea los archivos de coordinación de `.kraken/` sin vaciarlos, para que los usuarios que terminan
+  al mismo tiempo no borren la marca de los demás.
 
 ## Estructura
 
