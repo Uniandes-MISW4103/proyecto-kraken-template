@@ -43,9 +43,14 @@ npm run kraken:install
 `kraken:ui` ejecuta exactamente lo mismo: Kraken siempre abre las ventanas de Chrome (no tiene modo
 headless), una por cada usuario web del escenario.
 
-Los scripts usan `run-kraken.cjs`, que inicia `kraken-node run`. Si `adb` no está instalado, este
-lanzador permite ejecutar los escenarios web (Kraken 1.0.24 exige `adb` incluso cuando no hay
-usuarios Android) y detiene con un mensaje claro los escenarios que tengan usuarios `@mobile`.
+Los scripts usan `run-kraken.cjs`, que inicia `kraken-node run` con dos correcciones para Kraken
+1.0.24:
+
+- Si `adb` no está instalado, permite ejecutar los escenarios web (Kraken exige `adb` incluso cuando
+  no hay usuarios Android) y detiene con un mensaje claro los escenarios que tengan usuarios
+  `@mobile`.
+- Evita que, cuando dos usuarios terminan al mismo tiempo, uno borre la marca del otro en los
+  archivos de coordinación de `.kraken/` y ambos se queden esperando hasta el tiempo máximo.
 
 ## Estructura
 
@@ -100,6 +105,10 @@ alojado en StackBlitz. Dos usuarios web, cada uno en su propio Chrome:
 
 - **`adb: not found` / `Command failed: adb devices -l`**: ejecutaron `kraken-node run` directamente;
   usen `npm test` (o `npm run kraken:test`), que pasa por `run-kraken.cjs`.
+- **Todos los pasos pasan pero el `After` falla por tiempo (`not all devices were ready to finish`)**:
+  si ejecutaron `kraken-node run` directamente, usen `npm test`. Si pasa con `npm test`, revisen que
+  todos los usuarios del escenario lleguen al final (por ejemplo, que ninguno espere una señal que
+  nunca llega).
 - **`Este escenario tiene usuarios @mobile y no se encontró 'adb'`**: el escenario necesita Android;
   instalen los requisitos móviles (ver Requisitos) o etiqueten los usuarios como `@web`.
 - **No abre Chrome o falla al iniciar el navegador**: verifiquen que Google Chrome esté instalado. En
