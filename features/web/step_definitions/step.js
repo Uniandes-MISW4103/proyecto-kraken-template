@@ -3,6 +3,8 @@ const expect = require("chai").expect;
 
 Given("I run this project", async function () {
   let element = await this.driver.$("button");
+  // StackBlitz can take longer than the fixed wait to show its "Run this project" button.
+  await element.waitForClickable({ timeout: 30000 });
   return await element.click();
 });
 
