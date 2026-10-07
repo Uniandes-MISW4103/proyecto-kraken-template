@@ -141,3 +141,5 @@ reports/
 
 *.png
 *.html
+# Only the root lockfile of the student repository is versioned (see proyecto-base)
+package-lock.json
