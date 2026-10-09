@@ -50,6 +50,8 @@ Los scripts usan `run-kraken.cjs`, que inicia `kraken-node run` y además:
   `adb`.
 - Crea los archivos de coordinación de `.kraken/` sin vaciarlos, para que los usuarios que terminan
   al mismo tiempo no borren la marca de los demás.
+- Agrega las variables `ABP_*` del `.env` del repositorio a los valores de `properties.json` (ver
+  [Configuración](#configuración)).
 
 ## Estructura
 
@@ -58,7 +60,8 @@ misw-4103-kraken/
 ├── .nvmrc
 ├── package.json
 ├── run-kraken.cjs                      # lanzador de kraken-node (ver arriba)
-├── properties.json                     # valores para los escenarios (<USERNAME>, <PASSWORD>, …)
+├── abp.cjs                             # lee la configuración de la aplicación bajo pruebas (.env)
+├── properties.json                     # valores propios para los escenarios (<FIRSTNAME>, …)
 ├── mobile.json                         # datos del APK para usuarios @mobile (requerido aunque no se use)
 └── features/
     ├── tutorial.feature                # ejemplo incluido
@@ -78,8 +81,20 @@ Los reportes quedan en `reports/` y los archivos de trabajo de Kraken en `.krake
 - **Escenarios** (`features/*.feature`): cada escenario se etiqueta con el usuario y su tipo, por
   ejemplo `@user1 @web` y `@user2 @web`. Kraken ejecuta en paralelo los escenarios de los distintos
   usuarios de un mismo archivo.
-- **`properties.json`**: valores que se usan en los pasos con la sintaxis `"<NOMBRE>"`; actualícenlos
-  con los datos de su aplicación (por ejemplo, las credenciales de Ghost).
+- **Valores de los pasos** (sintaxis `"<NOMBRE>"`): la URL y el administrador de la aplicación bajo
+  pruebas (ABP) vienen del archivo `.env` de la raíz del repositorio, el mismo que usa
+  `npm run abp:up` para desplegar Ghost, y se usan sin copiarlos en el módulo:
+
+  ```gherkin
+  Given I navigate to page "<ABP_URL>/ghost/"
+  When I enter email "<ABP_ADMIN_EMAIL>"
+  ```
+
+  Las variables disponibles son `ABP_URL`, `ABP_RC_URL` (la versión de Ghost para regresión visual),
+  `ABP_ADMIN_NAME`, `ABP_ADMIN_EMAIL` y `ABP_ADMIN_PASSWORD`; `abp.cjs` las lee y `run-kraken.cjs`
+  las agrega a las de `properties.json`, donde van los demás valores que necesiten. Si un nombre está
+  en los dos, se usa el del `.env`. Fuera de un repositorio del proyecto (sin `.env`) se usan los
+  valores por defecto de `abp.cjs`.
 - **`mobile.json`**: ruta, paquete y actividad del APK para usuarios `@mobile`. Con `"type":
   "multiple"` se puede definir un APK por usuario.
 - **Pasos**: Kraken ya trae pasos genéricos (navegar, esperar, enviar y esperar señales, entre
@@ -92,10 +107,12 @@ Los reportes quedan en `reports/` y los archivos de trabajo de Kraken en `.krake
 
 `features/tutorial.feature` usa el demo
 [angular-6-registration-login-example](https://angular-6-registration-login-example.stackblitz.io)
-alojado en StackBlitz. Dos usuarios web, cada uno en su propio Chrome:
+alojado en StackBlitz, no la ABP: muestra cómo usar las credenciales del `.env` sin resolver las
+pruebas del proyecto. Dos usuarios web, cada uno en su propio Chrome:
 
 1. Abren la página de registro e inician el proyecto en StackBlitz.
-2. Se registran con los datos de `properties.json`.
+2. Se registran con el nombre de `properties.json` (`<FIRSTNAME>`, `<LASTNAME>`) y el correo (como
+   usuario) y la contraseña del `.env` (`<ABP_ADMIN_EMAIL>`, `<ABP_ADMIN_PASSWORD>`).
 3. Cada uno envía una señal al otro ("user1 registered" / "user2 registered") y espera la del otro
    (hasta 60 s).
 4. Inician sesión y verifican el mensaje "Hi Monitor!".
