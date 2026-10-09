@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Runs the kraken-node CLI with two patches to kraken-node 1.0.24 internals (package.json pins that
+ * Runs the kraken-node CLI with three patches to kraken-node 1.0.24 internals (package.json pins that
  * exact version):
  *
  * 1. Without adb, web-only features run. kraken-node lists Android devices with `adb devices` before
@@ -13,6 +13,10 @@
  *    as another could erase the other's entry and both would wait until the timeout. This patch is
  *    applied in the launcher and in every user's process, where this file is preloaded.
  *
+ * 3. The settings of the application under test are properties too. Every ABP_* variable of the
+ *    repository's .env (see abp.cjs) can be used in features like the values of properties.json
+ *    ("<ABP_ADMIN_EMAIL>"); if a name is in both, the .env value is used.
+ *
  * Usage: node run-kraken.cjs run   (same arguments as the kraken-node CLI)
  */
 const { execFileSync } = require("node:child_process");
@@ -22,6 +26,15 @@ function createFilesWithoutTruncating() {
   const { FileHelper } = require("kraken-node/lib/utils/FileHelper");
   FileHelper.prototype.createFileIfDoesNotExist = function (path) {
     fs.closeSync(fs.openSync(path, "a"));
+  };
+}
+
+function addApplicationUnderTestProperties() {
+  const { PropertyManager } = require("kraken-node/lib/utils/PropertyManager");
+  const abp = require("./abp.cjs");
+  const fromPropertiesFile = PropertyManager.prototype.allUserProperties;
+  PropertyManager.prototype.allUserProperties = function () {
+    return { ...fromPropertiesFile.call(this), ...abp };
   };
 }
 
@@ -57,6 +70,7 @@ function preloadInUserProcesses() {
 }
 
 createFilesWithoutTruncating();
+addApplicationUnderTestProperties();
 
 if (require.main === module) {
   if (!adbAvailable()) {

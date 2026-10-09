@@ -8,8 +8,8 @@ Scenario: Como primer usuario hago registro e inicio sesión
   And I wait for 5 seconds
   When I enter first name "<FIRSTNAME>"
   And I enter last name "<LASTNAME>"
-  And I enter username "<USERNAME>"
-  And I enter password "<PASSWORD>"
+  And I enter username "<ABP_ADMIN_EMAIL>"
+  And I enter password "<ABP_ADMIN_PASSWORD>"
   And I wait for 5 seconds
   And I click register
   Then I send a signal to user 2 containing "user1 registered"
@@ -18,8 +18,8 @@ Scenario: Como primer usuario hago registro e inicio sesión
   And I wait for 5 seconds
   And I run this project
   And I wait for 5 seconds
-  When I enter username "<USERNAME>"
-  And I enter password "<PASSWORD>"
+  When I enter username "<ABP_ADMIN_EMAIL>"
+  And I enter password "<ABP_ADMIN_PASSWORD>"
   And I wait for 5 seconds
   And I click login
   And I wait for 5 seconds
@@ -33,8 +33,8 @@ Scenario: Como segundo usuario hago registro e inicio sesión
   And I wait for 5 seconds
   When I enter first name "<FIRSTNAME>"
   And I enter last name "<LASTNAME>"
-  And I enter username "<USERNAME>"
-  And I enter password "<PASSWORD>"
+  And I enter username "<ABP_ADMIN_EMAIL>"
+  And I enter password "<ABP_ADMIN_PASSWORD>"
   And I wait for 5 seconds
   And I click register
   Then I send a signal to user 1 containing "user2 registered"
@@ -43,8 +43,8 @@ Scenario: Como segundo usuario hago registro e inicio sesión
   And I wait for 5 seconds
   And I run this project
   And I wait for 5 seconds
-  When I enter username "<USERNAME>"
-  And I enter password "<PASSWORD>"
+  When I enter username "<ABP_ADMIN_EMAIL>"
+  And I enter password "<ABP_ADMIN_PASSWORD>"
   And I wait for 5 seconds
   And I click login
   And I wait for 5 seconds
